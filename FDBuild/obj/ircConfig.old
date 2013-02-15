@@ -32,7 +32,7 @@
     </define>
     <verbose-stacktraces>true</verbose-stacktraces>
     <source-path append="true">
-      <path-element>D:\git\reality-0.1\src</path-element>
+      <path-element>D:\git\reality-0.1\src\main</path-element>
       <path-element>D:\git\IRCClient\src</path-element>
       <path-element>C:\Program Files (x86)\FlashDevelop\Library\AS3\classes</path-element>
     </source-path>

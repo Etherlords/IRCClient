@@ -8,6 +8,8 @@ package irc.services
 	import flash.events.SecurityErrorEvent;
 	import irc.actions.ConnectionAction;
 	import irc.actions.IAction;
+	import irc.actions.NoticeAction;
+	import irc.actions.PingAction;
 	import irc.events.IRCEvent;
 	import irc.IRCCommands;
 	import irc.IRCConnection;
@@ -47,6 +49,8 @@ package irc.services
 		private function manageActions():void 
 		{
 			actions.addItem(IRCCommands.CONNECT, new ConnectionAction());
+			actions.addItem(IRCCommands.NOTICE, new NoticeAction());
+			actions.addItem(IRCCommands.PING, new PingAction());
 		}
 		
 		private function manageEvents():void
