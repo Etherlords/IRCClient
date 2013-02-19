@@ -1,8 +1,9 @@
 package irc.loggers
 {
-    import irc.IRCChannel;
+
     import irc.IRCPrivateTalk;
     import irc.IRCServer;
+	import irc.model.IRCChannel;
 
     public class DefaultLoggerFactory implements IChatLoggerFactory
     {

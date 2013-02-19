@@ -6,16 +6,24 @@ package irc.services
 	import flash.events.Event;
 	import flash.events.IOErrorEvent;
 	import flash.events.SecurityErrorEvent;
+	import irc.actions.ActionPrivmsg;
+	import irc.actions.ChangeModeAction;
+	import irc.actions.ChannelEndOfMembersAction;
+	import irc.actions.ChannelJoinedAction;
+	import irc.actions.ChannelMembersAction;
 	import irc.actions.ConnectionAction;
 	import irc.actions.IAction;
 	import irc.actions.NoticeAction;
 	import irc.actions.PingAction;
+	import irc.actions.RegistredAction;
+	import irc.actions.WelcomeAction;
 	import irc.events.IRCEvent;
 	import irc.IRCCommands;
 	import irc.IRCConnection;
 	import irc.IRCMessage;
 	import irc.loggers.DefaultLoggerFactory;
 	import irc.names.IIRCName;
+	import irc.NumericReplies;
 	/**
 	 * ...
 	 * @author Nikro
@@ -51,6 +59,20 @@ package irc.services
 			actions.addItem(IRCCommands.CONNECT, new ConnectionAction());
 			actions.addItem(IRCCommands.NOTICE, new NoticeAction());
 			actions.addItem(IRCCommands.PING, new PingAction());
+			actions.addItem(IRCCommands.MODE, new ChangeModeAction());
+			actions.addItem(IRCCommands.JOIN, new ChannelJoinedAction());
+			actions.addItem(IRCCommands.PRIVMSG, new ActionPrivmsg());
+			
+			actions.addItem(NumericReplies.RPL_NAMREPLY, new ChannelMembersAction());
+			actions.addItem(NumericReplies.RPL_ENDOFNAMES, new ChannelEndOfMembersAction());
+			
+			actions.addItem(NumericReplies.RPL_WELCOME, new WelcomeAction());
+			
+			actions.addItem(NumericReplies.RPL_YOURHOST, new RegistredAction());
+			actions.addItem(NumericReplies.RPL_CREATED, new RegistredAction());
+			actions.addItem(NumericReplies.RPL_MYINFO, new RegistredAction());
+			actions.addItem(NumericReplies.RPL_ISUPPORT, new RegistredAction());
+			
 		}
 		
 		private function manageEvents():void
@@ -76,8 +98,12 @@ package irc.services
 		{
 			var m:IRCMessage = e.message;
 			
-			var action:IAction = actions.getItem(m.command).execute(m);
-			trace(m);
+			var action:IAction = actions.getItem(m.command);
+			
+			if (action)
+				action.execute(m);
+			else
+				trace('### UNKNOWN ACTION', m.command);
 		}
 		
 		private function errorHandled(e:Event):void 

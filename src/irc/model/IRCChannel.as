@@ -1,6 +1,7 @@
-package irc
+package irc.model
 {
     //import irc.names.IRCUserName;
+	import irc.IRCMessage;
     import irc.loggers.IChatLogger;
 
     public class IRCChannel implements IChatLogger
@@ -10,6 +11,8 @@ package irc
 
         protected var _users:Object;     // Vector.<String>
         protected var _operators:Object; // Vector.<String>
+		
+		private var _messagesLog:Vector.<ChannelMessage> = new Vector.<ChannelMessage>;
 
         protected var _isPrivate:Boolean;
         protected var _isSecret:Boolean;
@@ -267,10 +270,16 @@ package irc
                 users.push(userNick);
             return users;
         }
-
-        public function receivedPRIVMSG(sender:String, message:String):void
+		
+		public function get messagesLog():Vector.<ChannelMessage> 
+		{
+			return _messagesLog;
+		}
+		
+        public function receivedPRIVMSG(message:ChannelMessage):void
         {
-
+			trace('reciving transmission');
+			_messagesLog.push(message);
         }
 
         public function receivedNOTICE(sender:String, message:String):void

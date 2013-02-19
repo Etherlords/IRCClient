@@ -1,6 +1,7 @@
 package irc
 {
     import irc.loggers.IChatLogger;
+	import irc.model.ChannelMessage;
 
     public class IRCPrivateTalk implements IChatLogger
     {
@@ -33,7 +34,7 @@ package irc
             _nick = n;
         }
 
-        public function receivedPRIVMSG(sender:String, message:String):void
+        public function receivedPRIVMSG(message:ChannelMessage):void
         {
 
         }

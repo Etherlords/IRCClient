@@ -13,6 +13,8 @@ package
 	import irc.IRCMessageParser;
 	import irc.loggers.DefaultLoggerFactory;
 	import irc.names.IIRCName;
+	import irc.services.CamutatorService;
+	import irc.services.IRCChannelsService;
 	import irc.services.IRCConnectionService;
 	import irc.services.IRCSettingsService;
 	
@@ -43,6 +45,8 @@ package
 			settings.settings.realname = 'AsCleint';
 			
 			
+			var camutator:CamutatorService = new CamutatorService();
+			var channels:IRCChannelsService = new IRCChannelsService();
 			var conenction:IRCConnectionService = new IRCConnectionService();
 			conenction.connect();
 		}

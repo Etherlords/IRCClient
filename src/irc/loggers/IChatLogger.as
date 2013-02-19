@@ -1,10 +1,11 @@
 package irc.loggers
 {
     import irc.IRCMessage;
+	import irc.model.ChannelMessage;
 
     public interface IChatLogger
     {
-        function receivedPRIVMSG(sender:String, message:String):void;
+        function receivedPRIVMSG(message:ChannelMessage):void;
         function receivedNOTICE(sender:String, message:String):void;
         function receivedMessage(m:IRCMessage):void;
         function sendPRIVMSG(me:String, message:String):void;
