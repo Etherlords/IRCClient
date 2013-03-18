@@ -258,22 +258,19 @@ package irc {
 			var sender:String = m.prefix.nick;
 			var message:String = m.trailing;
 			
-			//trace("received PRIVMSG");
-			//trace("target:" + target);
-			//trace("sender:" + sender);
 			
 			var result:Array = IRCUtil.splitAndUnescapeCTCP(message);
 			if (result[0] != null) {
 				if (target.match(/^[#&!+]/) != null) { // channel
 					if (target in _channels) {
-						trace("channel found:" + target);
+						
 						_channels[target].receivedPRIVMSG(sender, result[0]);
 					} else {
-						trace("channel not found:" + target);
+						
 						pushToServerLog(m);
 					}
 				} else if (_me != null && target == _me.nick) { // private talks
-					trace("target is me");
+					
 					if (!(sender in _privateTalks)) {
 						_privateTalks[sender] = _loggerFactory.createPrivateTalk(sender);
 					}

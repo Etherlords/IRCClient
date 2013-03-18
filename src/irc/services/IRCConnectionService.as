@@ -11,10 +11,12 @@ package irc.services
 	import irc.actions.ChannelEndOfMembersAction;
 	import irc.actions.ChannelJoinedAction;
 	import irc.actions.ChannelMembersAction;
+	import irc.actions.ChannelPartAction;
 	import irc.actions.ConnectionAction;
 	import irc.actions.IAction;
 	import irc.actions.NoticeAction;
 	import irc.actions.PingAction;
+	import irc.actions.QuitAction;
 	import irc.actions.RegistredAction;
 	import irc.actions.WelcomeAction;
 	import irc.events.IRCEvent;
@@ -62,6 +64,9 @@ package irc.services
 			actions.addItem(IRCCommands.MODE, new ChangeModeAction());
 			actions.addItem(IRCCommands.JOIN, new ChannelJoinedAction());
 			actions.addItem(IRCCommands.PRIVMSG, new ActionPrivmsg());
+			actions.addItem(IRCCommands.PART, new ChannelPartAction());
+			
+			actions.addItem(IRCCommands.QUIT, new QuitAction());
 			
 			actions.addItem(NumericReplies.RPL_NAMREPLY, new ChannelMembersAction());
 			actions.addItem(NumericReplies.RPL_ENDOFNAMES, new ChannelEndOfMembersAction());
@@ -111,6 +116,11 @@ package irc.services
 			
 		}
 		
+		public function get connected():Boolean
+		{
+			return connection.connected;
+		}
+		
 		override public function registred(serviceLocator:ServicesLocator):void 
 		{
 			super.registred(serviceLocator);
@@ -122,7 +132,7 @@ package irc.services
 		
 		public function connect():void
 		{
-			connection.connect(settingsService.settings.host, settingsService.settings.port, settingsService.settings.overTLS);
+			connection.connect(settingsService.serverSettings.host, settingsService.serverSettings.port, settingsService.serverSettings.overTLS);
 		}
 		
 		public function get connection():IRCConnection 

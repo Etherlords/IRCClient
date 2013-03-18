@@ -19,11 +19,11 @@ package irc.actions {
 		}
 		
 		override public function execute(params:IActionParams = null):* {
-			if (settingsService.settings.password != null && settingsService.settings.password.length > 0)
-				connectionService.sendMessage(IRCCommands.PASS, [settingsService.settings.password]);
+			if (settingsService.serverSettings.password != null && settingsService.serverSettings.password.length > 0)
+				connectionService.sendMessage(IRCCommands.PASS, [settingsService.serverSettings.password]);
 			
-			connectionService.sendMessage(IRCCommands.NICK, [settingsService.settings.nickname]);
-			connectionService.sendMessage(IRCCommands.USER, [settingsService.settings.username, settingsService.settings.usermode, "*"], settingsService.settings.realname);
+			connectionService.sendMessage(IRCCommands.NICK, [settingsService.serverSettings.nickname]);
+			connectionService.sendMessage(IRCCommands.USER, [settingsService.serverSettings.username, settingsService.serverSettings.usermode, "*"], settingsService.serverSettings.realname);
 			
 			return null;
 		}

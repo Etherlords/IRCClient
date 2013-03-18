@@ -3,6 +3,7 @@ package irc.services
 	import core.services.AbstractService;
 	import core.services.ServicesLocator;
 	import irc.model.IRCServerSettingModel;
+	import irc.model.IRCSettingsModel;
 	
 	/**
 	 * ...
@@ -10,7 +11,8 @@ package irc.services
 	 */
 	public class IRCSettingsService extends AbstractService 
 	{
-		private var _settings:IRCServerSettingModel
+		private var _serverSettings:IRCServerSettingModel
+		private var _ircSettings:IRCSettingsModel;
 		
 		public function IRCSettingsService() 
 		{
@@ -21,7 +23,8 @@ package irc.services
 		
 		private function initilize():void 
 		{
-			_settings = new IRCServerSettingModel();
+			_serverSettings = new IRCServerSettingModel();
+			_ircSettings = new IRCSettingsModel();
 		}
 		
 		override public function registred(serviceLocator:ServicesLocator):void 
@@ -30,9 +33,14 @@ package irc.services
 			
 		}
 		
-		public function get settings():IRCServerSettingModel 
+		public function get serverSettings():IRCServerSettingModel 
 		{
-			return _settings;
+			return _serverSettings;
+		}
+		
+		public function get ircSettings():IRCSettingsModel 
+		{
+			return _ircSettings;
 		}
 		
 	}

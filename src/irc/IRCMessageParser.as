@@ -1,14 +1,14 @@
 package irc
 {
-    import com.adobe.utils.StringUtil;
     import irc.names.IIRCName;
     import irc.names.IRCNameParser;
+	import vcl.f4r.TUtils;
 
     public class IRCMessageParser
     {
         public static function parse(src:String):IRCMessage
         {
-            src = StringUtil.trim(src);
+            src = TUtils.Trim(src);
 
             // if empty line
             var length:int = src.length;
@@ -26,7 +26,7 @@ package irc
             var trailingIndex:int = src.indexOf(":", 1);
             if (trailingIndex != -1) {
                 trailing = src.substring(trailingIndex + 1).replace(/(?:\r|\n)$/, "");
-                src = StringUtil.trim(src.substring(0, trailingIndex));
+                src = TUtils.Trim(src.substring(0, trailingIndex));
             }
 
             var parts:Array = src.split(/\s+/);

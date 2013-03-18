@@ -4,6 +4,7 @@ package irc.actions
 	import irc.IRCMessage;
 	import irc.IRCUtil;
 	import irc.model.ChannelMessage;
+	import irc.model.ChannelTypes;
 	import irc.model.IRCChannel;
 	import irc.services.CamutatorService;
 	import irc.services.IRCChannelsService;
@@ -14,6 +15,7 @@ package irc.actions
 	public class ActionPrivmsg extends AbstractAction 
 	{
 		
+		private var date:Date
 		private var channelService:IRCChannelsService = ServicesLocator.instance.getService(IRCChannelsService) as IRCChannelsService;
 		private var camutatorService:CamutatorService = ServicesLocator.instance.getService(CamutatorService) as CamutatorService;
 		
@@ -50,10 +52,14 @@ package irc.actions
 			
 			if (result[0] != null) {
 				
+				date = new Date();
 				chMessage = new ChannelMessage();
 				chMessage.message = result[0];
 				chMessage.senderId = sender;
 				chMessage.channel = target;
+				chMessage.time = date.getTime();
+				
+				
 				
 				if (target.match(/^[#&!+]/) != null) { // channel
 					
@@ -61,30 +67,25 @@ package irc.actions
 					
 					if (channel) 
 					{
-						trace("channel found:" + target);
 						channel.receivedPRIVMSG(chMessage);
+						chMessage.type = ChannelTypes.PUBLIC;
 					} 
 					else 
 					{
-						trace("channel not found:" + target);
 						//pushToServerLog(m);
 					}
 				} 
-				
-				/*else if (_me != null && target == _me.nick) 
+				else// if (target == sender) 
 				{ // private talks
 					//TODO: тут нужно будет добавить вывод в привты
-					trace("target is me");
-					//if (!(sender in _privateTalks)) 
-					//{
-					//	_privateTalks[sender] = _loggerFactory.createPrivateTalk(sender);
-					//}
-					//_privateTalks[sender].receivedPRIVMSG(sender, result[0]);
+					chMessage.type = ChannelTypes.PRIVATE;
+					
+					
 				} 
-				else 
-				{
+				//else 
+				//{
 					//pushToServerLog(m);
-				}*/
+				//}
 			}
 			if (result[1] != null) {
 				// Handle CTCP Request

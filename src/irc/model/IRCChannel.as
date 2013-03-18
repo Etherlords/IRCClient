@@ -124,7 +124,6 @@ package irc.model
 
         public function changedNick(oldNick:String, newNick:String):void
         {
-            trace("changedNick from " + oldNick + " to " + newNick);
             changeUserNick(oldNick, newNick);
             changeOperatorNick(oldNick, newNick);
             updatedMembers();
@@ -235,6 +234,9 @@ package irc.model
 
         public function addUser(user:String):void
         {
+			if (user.charAt(0) == '@')
+				user = user.replace('@', '')
+			
             delete _operators[user];
             _users[user] = user;
         }
@@ -245,11 +247,13 @@ package irc.model
             _operators[user] = user;
         }
 
-        public function get userNicks():Array
+        public function get userNicks():Vector.<String>
         {
-            var users:Array = [];
+            var users:Vector.<String> = new <String>[];
+			
             for (var userNick:String in _users)
                 users.push(userNick);
+				
             return users;
         }
 
@@ -278,7 +282,6 @@ package irc.model
 		
         public function receivedPRIVMSG(message:ChannelMessage):void
         {
-			trace('reciving transmission');
 			_messagesLog.push(message);
         }
 

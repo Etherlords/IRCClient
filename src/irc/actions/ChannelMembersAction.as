@@ -32,7 +32,6 @@ package irc.actions
 			
 			for each (var user:String in m.trailing.split(/\s+/))
 			{
-				trace('add user', user);
 				channel.addUser(user);
 			}
 		}

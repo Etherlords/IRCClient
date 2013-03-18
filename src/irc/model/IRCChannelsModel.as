@@ -8,7 +8,7 @@ package irc.model
 	 */
 	public class IRCChannelsModel 
 	{
-		private var channels:Vector.<IRCChannel>
+		private var _channels:Vector.<IRCChannel>
 		private var channelsMap:SimpleMap = new SimpleMap();
 		
 		public function IRCChannelsModel() 
@@ -19,18 +19,24 @@ package irc.model
 		
 		public function addChannel(channel:IRCChannel):void
 		{
-			channels.push(channel);
-			channelsMap.addItem(channel.name, channel);
+			_channels.push(channel);
+			
+			channelsMap.addItem(channel.name.toLocaleLowerCase(), channel);
 		}
 		
 		public function getChannel(channelName:String):IRCChannel
 		{
-			return channelsMap.getItem(channelName);
+			return channelsMap.getItem(channelName.toLocaleLowerCase());
 		}
 		
 		private function initilize():void 
 		{
-			channels = new Vector.<IRCChannel>;
+			_channels = new Vector.<IRCChannel>;
+		}
+		
+		public function get channels():Vector.<IRCChannel> 
+		{
+			return _channels;
 		}
 		
 	}

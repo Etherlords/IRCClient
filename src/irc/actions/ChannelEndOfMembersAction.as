@@ -23,11 +23,15 @@ package irc.actions
 			//Тут нужно будет разделать модераторов и почее от юзеров, если нужно будет
 			//updateChannelMembers(params as IRCMessage);
 			
+			updateChannelMembers(params as IRCMessage)
+			
 			return super.execute(params);
 		}
 		
 		private function updateChannelMembers(m:IRCMessage):void 
 		{
+			channelService.updateChannelMembers(m.params[1]);
+			
 			/*for (var channelName:String in _names) 
 			{
 				if (channelName in _channels) 

@@ -1,21 +1,25 @@
 package irc.actions 
 {
 	import core.services.ServicesLocator;
+	
 	import irc.IRCMessage;
+	
 	import irc.model.IRCChannel;
+	
 	import irc.names.IRCNameType;
+	
 	import irc.services.IRCChannelsService;
 	import irc.services.IRCSettingsService;
 	/**
 	 * ...
 	 * @author Nikro
 	 */
-	public class ChannelJoinedAction extends AbstractAction 
+	public class ChannelPartAction extends AbstractAction 
 	{
 		private var channelService:IRCChannelsService = ServicesLocator.instance.getService(IRCChannelsService) as IRCChannelsService;
 		private var settingsService:IRCSettingsService = ServicesLocator.instance.getService(IRCSettingsService) as IRCSettingsService;
 		
-		public function ChannelJoinedAction() 
+		public function ChannelPartAction() 
 		{
 			super();
 			
@@ -23,25 +27,15 @@ package irc.actions
 		
 		override public function execute(params:IActionParams = null):* 
 		{
-			joinedChannel(params as IRCMessage)
+			partChannel(params as IRCMessage)
 			
 			return super.execute(params);
 		}
 		
-		private function joinedChannel(m:IRCMessage):void {
-			var channelName:String = m.trailing;
-			var channel:IRCChannel = new IRCChannel(channelName);
+		private function partChannel(m:IRCMessage):void {
+			var channelName:String = m.params[0];
 			
-			if (m.prefix.nick == settingsService.serverSettings.nickname)
-			{
-				channelService.joinChannel(channel);
-			}
-			else if (m.prefix.type == IRCNameType.USER)
-			{
-				channelService.addUser(channelName, m.prefix.nick);// (channelName).addUser(m.prefix.nick);
-			}
-			
-			//dispatchEvent(new IRCEvent(IRCEvent.JOINED));
+			channelService.partChannel(channelName, m.prefix.nick);
 		}
 	}
 
